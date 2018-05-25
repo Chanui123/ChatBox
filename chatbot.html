@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 2 Chatbot</title>
+<style>
+body { 
+	font-weight: bold;font-family: Arial; font-size: 25px; 
+	background-image: url("image2.jpg"); no-repeat left top; 
+	background-size: 100%;
+}
+#main { 
+	position: fixed; top: 60%; right:10px; width: 400px; 
+	border: 0px solid #421; padding: 20px; 
+}
+#main div { 
+	margin: 5px; 
+} 
+#input { 
+	border: 0; background: #EBE547; padding: 10px; border: 5px solid #421; 
+}
+</style>
+</head>
+<body>
+<div id="main">
+	<div>User: <span id="user"></span></div>
+	<div>Chatbot: <span id="chatbot"></span></div>
+	<div><input id="input" type="text" font-weight: bold; placeholder="Enter your text here."/></div>
+</div>
+
+<script type="text/javascript">
+var question = [
+	["hi","hey","hello"], 
+	["how are you"],
+	["bye", "good bye", "goodbye"],
+	["which paper is good for software engineering"],
+	["how many points do i need to graduate"],
+];
+var reply = [
+	["Hi, I'm ChatBot404","Hello, my name is ChatBot404"], 
+	["Good", "Not too bad, your self?", "Great, thank you"],
+	["Bye~", "See you next time.", "See you later"],
+	["I highly suggest that you should take Software Engineering."],
+	["According to my our system, you will need 360 points to graduate.<br> Good luck with your study."],
+];
+var alternative = ["Sorry, I don't understand. <br> Please ask me something about your paper","Would you like me to show you existed questions?"];
+
+document.querySelector("#input").addEventListener("keypress", function(e){
+	var key = e.which || e.keyCode;
+	if(key === 13){ //Enter button
+		var input = document.getElementById("input").value;
+		document.getElementById("user").innerHTML = input;
+		output(input);
+	}
+});
+
+
+function output(input){
+	try{
+		var product = input + "=" + eval(input);
+	} catch(e){
+		var userInput = (input.toLowerCase()).replace(/[^\w\s\d]/gi, ""); //remove all chars except words, space and 
+		if(compare(question, reply, userInput)){
+			var product = compare(question, reply, userInput);
+		} else {
+			var product = alternative[Math.floor(Math.random()*alternative.length)];
+		}
+	}
+	document.getElementById("chatbot").innerHTML = product;	//get value and then compare with value in the array
+	document.getElementById("input").value = ""; //clear text box so the user don't have to delete the text they typed
+}
+
+function compare(arr, array, string){
+	var item;
+	for(var x=0; x<arr.length; x++){
+		for(var y=0; y<array.length; y++){
+			if(arr[x][y] == string){
+				items = array[x];
+				item =  items[Math.floor(Math.random()*items.length)];
+			}
+		}
+	}
+	return item;
+}
+</script>
+</body>
+</html>
